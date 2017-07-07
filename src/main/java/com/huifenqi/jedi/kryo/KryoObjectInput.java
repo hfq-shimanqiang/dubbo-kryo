@@ -14,16 +14,20 @@ import java.lang.reflect.Type;
  * Created by t3tiger on 2017/7/5.
  */
 public class KryoObjectInput implements ObjectInput {
-    private static final Kryo kryo = KryoFactory.createOrGetKryo();
+    private Kryo kryo;
     private KryoInput input;
 
     public KryoObjectInput(InputStream inputStream) {
         this.input = new KryoInput(inputStream);
+        kryo = KryoFactory.createOrGetKryo();
     }
 
     @Override
     public Object readObject() throws IOException, ClassNotFoundException {
         try {
+            if (kryo == null) {
+                kryo = KryoFactory.createOrGetKryo();
+            }
             return kryo.readClassAndObject(input);
         } catch (KryoException e) {
             throw new IOException(e);

@@ -2,19 +2,8 @@ package com.huifenqi.jedi.kryo.ext;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
-import com.esotericsoftware.kryo.serializers.DefaultSerializers;
 import com.esotericsoftware.kryo.serializers.FieldSerializer;
-import de.javakaffee.kryoserializers.*;
 import org.objenesis.strategy.StdInstantiatorStrategy;
-
-import java.lang.reflect.InvocationHandler;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.URI;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Pattern;
 
 /**
  * Created by t3tiger on 2017/7/5.
@@ -58,43 +47,6 @@ public abstract class KryoFactory {
              */
             kryo.setRegistrationRequired(false);
 
-            kryo.register(Arrays.asList("").getClass(), new ArraysAsListSerializer());
-            kryo.register(GregorianCalendar.class, new GregorianCalendarSerializer());
-            kryo.register(InvocationHandler.class, new JdkProxySerializer());
-            kryo.register(BigDecimal.class, new DefaultSerializers.BigDecimalSerializer());
-            kryo.register(BigInteger.class, new DefaultSerializers.BigIntegerSerializer());
-            kryo.register(Pattern.class, new RegexSerializer());
-            kryo.register(BitSet.class, new BitSetSerializer());
-            kryo.register(URI.class, new URISerializer());
-            kryo.register(UUID.class, new UUIDSerializer());
-            UnmodifiableCollectionsSerializer.registerSerializers(kryo);
-            SynchronizedCollectionsSerializer.registerSerializers(kryo);
-
-            // now just added some very common classes
-            // TODO optimization
-            kryo.register(HashMap.class, 100);
-            kryo.register(ArrayList.class, 101);
-            kryo.register(LinkedList.class, 102);
-            kryo.register(HashSet.class, 103);
-            kryo.register(TreeSet.class, 104);
-            kryo.register(Hashtable.class, 105);
-            kryo.register(Date.class, 106);
-            kryo.register(Calendar.class, 107);
-            kryo.register(ConcurrentHashMap.class, 108);
-            kryo.register(SimpleDateFormat.class, 109);
-            kryo.register(GregorianCalendar.class, 110);
-            kryo.register(Vector.class, 111);
-            kryo.register(BitSet.class, 112);
-            kryo.register(StringBuffer.class, 113);
-            kryo.register(StringBuilder.class, 114);
-            kryo.register(Object.class, 115);
-            kryo.register(Object[].class, 116);
-            kryo.register(String[].class, 117);
-            kryo.register(byte[].class, 118);
-            kryo.register(char[].class, 119);
-            kryo.register(int[].class, 120);
-            kryo.register(float[].class, 121);
-            kryo.register(double[].class, 122);
 
             return kryo;
         }

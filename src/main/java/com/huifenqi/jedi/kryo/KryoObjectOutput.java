@@ -12,11 +12,12 @@ import java.io.OutputStream;
  * Created by t3tiger on 2017/7/5.
  */
 public class KryoObjectOutput implements ObjectOutput {
-    private Kryo kryo = KryoFactory.createOrGetKryo();
+    private Kryo kryo;
     private KryoOutput output;
 
     public KryoObjectOutput(OutputStream outputStream) {
         this.output = new KryoOutput(outputStream);
+        kryo = KryoFactory.createOrGetKryo();
     }
 
     public void writeBool(boolean v) throws IOException {
@@ -69,10 +70,19 @@ public class KryoObjectOutput implements ObjectOutput {
     }
 
     public void writeObject(Object v) throws IOException {
+        if (kryo == null) {
+            kryo = KryoFactory.createOrGetKryo();
+        }
         kryo.writeClassAndObject(output, v);
     }
 
     public void flushBuffer() throws IOException {
         output.flush();
+    }
+
+    public void cleanup() {
+        if (kryo != null) {
+            kryo = null;
+        }
     }
 }
